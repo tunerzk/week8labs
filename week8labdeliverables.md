@@ -181,6 +181,20 @@ If the MIG is used behind a load balancer, you must define a named port (e.g., h
 -Health Check Compatibility  
 The health check used for autohealing must match what your application actually serves (HTTP vs TCP, correct port, correct path).
 
+-Firewall Rules  
+Ensure the MIG’s VMs allow:
+Load balancer health check ranges
+Traffic from the proxy‑only subnet
+Application traffic (e.g., port 80)
+
+-Startup Script Reliability  
+If your MIG depends on a startup script, ensure it:
+Installs required packages
+Writes logs
+Exits cleanly
+A broken startup script will cause the MIG to continuously recreate instances.
+
+
 Guidance:
 
 - This is for other engineers, so no need to explain like I am nontechnical.
