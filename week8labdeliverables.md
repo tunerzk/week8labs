@@ -80,12 +80,106 @@ Add a section on **prerequisites**:
 - What do I, as an engineer, need to have ready to make this happen?
 
 ### Steps and key configuration
+1. VPC and Subnets
+Created VPC: albweek8-vpc
+
+Subnets:
+
+frontend-subnet (for load balancer proxy)
+
+backend-subnet (for MIG VMs)
+
+2. Firewall Rules
+Allowed HTTP (tcp:80) to MIG instances
+
+Allowed Google Load Balancer Health Check IP ranges
+
+130.211.0.0/22
+
+35.191.0.0/16
+
+3. Instance Template
+Machine type: e2-medium
+
+Network: albweek8-vpc, backend-subnet
+
+No external IP (private VM)
+
+Startup script installs Apache and writes an HTML page
+
+4. Cloud NAT
+Created alb-nat with router alb-router
+
+Enabled NAT for backend-subnet
+
+Allowed MIG VMs to run apt update and install Apache
+
+5. Managed Instance Group (MIG)
+Name: week8mig
+
+Zone: us-east1-b
+
+Size: 1
+
+Uses the instance template
+
+Autohealing enabled with health check
+
+6. Health Check
+Type: HTTP
+
+Port: 80
+
+Path: /
+
+Backend instance now shows Healthy
+
+7. Load Balancer
+External HTTP Load Balancer
+
+Frontend IP: 35.231.140.15
+
+Backend service: MIG
+
+Health check attached
+
+URL map + target HTTP proxy configured
+
+
 
 Explain at a high level:
 
 - **How to enable autoscaling and autohealing.**
+- Autoscaling is enabled by attaching a scaling policy to the MIG.
+This policy defines when the MIG should add or remove instances, usually based on CPU utilization, request load, or a custom metric.
+You configure this under the MIG’s Autoscaling tab and specify thresholds (e.g., “add instances when CPU > 60%”).
+
+Autohealing is enabled by attaching a health check to the MIG.
+The MIG continuously probes each VM using the health check. If a VM fails the probe, the MIG automatically recreates it.
+This is configured under the Autohealing section by selecting a health check and setting a grace period.
+
+
 - **How to verify that the instance group will manage instances across multiple zones.**
+- Check that the MIG type is Regional, not Zonal.
+A regional MIG automatically spans three zones in the region (e.g., us-east1-b, us-east1-c, us-east1-d).
+
+Confirm that the Instance Distribution Policy is set.
+This policy defines how many instances should run in each zone.
+You can view this in the MIG details under Distribution.
+
+After creation, verify that instances are actually placed in multiple zones by checking the Instances tab.
+You should see VMs running in more than one zone.
+
+
 - **Any other critical configuration explicitly.**
+- Instance Template  
+The MIG must reference a valid instance template. Any changes to the template require updating the MIG and recreating instances.
+
+-Named Ports  
+If the MIG is used behind a load balancer, you must define a named port (e.g., http:80) so the backend service knows which port to send traffic to.
+
+-Health Check Compatibility  
+The health check used for autohealing must match what your application actually serves (HTTP vs TCP, correct port, correct path).
 
 Guidance:
 
