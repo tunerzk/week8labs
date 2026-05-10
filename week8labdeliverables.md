@@ -88,9 +88,13 @@ Subnets:
 frontend-subnet (for load balancer proxy)
 
 backend-subnet (for MIG VMs)
+<img width="1080" height="729" alt="image" src="https://github.com/user-attachments/assets/877987ab-1639-41db-8fe0-05204b7a64d7" />
+
 
 2. Firewall Rules
 Allowed HTTP (tcp:80) to MIG instances
+<img width="1470" height="234" alt="image" src="https://github.com/user-attachments/assets/d3df026e-d65d-4756-801c-2ee01c178f7b" />
+
 
 Allowed Google Load Balancer Health Check IP ranges
 
@@ -102,6 +106,8 @@ Allowed Google Load Balancer Health Check IP ranges
 Machine type: e2-medium
 
 Network: albweek8-vpc, backend-subnet
+<img width="1469" height="539" alt="image" src="https://github.com/user-attachments/assets/a72c563e-d784-4043-bb05-6adee2b85c0c" />
+
 
 No external IP (private VM)
 
@@ -111,6 +117,9 @@ Startup script installs Apache and writes an HTML page
 Created alb-nat with router alb-router
 
 Enabled NAT for backend-subnet
+<img width="1491" height="357" alt="image" src="https://github.com/user-attachments/assets/a6b4333d-e586-4c7c-8600-a4f834d892dd" />
+
+
 
 Allowed MIG VMs to run apt update and install Apache
 
@@ -122,6 +131,8 @@ Zone: us-east1-b
 Size: 1
 
 Uses the instance template
+<img width="1538" height="362" alt="image" src="https://github.com/user-attachments/assets/e585b713-6696-4b2c-b96f-0556dcf8ef25" />
+
 
 Autohealing enabled with health check
 
@@ -133,6 +144,8 @@ Port: 80
 Path: /
 
 Backend instance now shows Healthy
+<img width="1468" height="793" alt="image" src="https://github.com/user-attachments/assets/acb91f4c-483d-4d2d-8174-5d055750a4b4" />
+
 
 7. Load Balancer
 External HTTP Load Balancer
@@ -140,10 +153,16 @@ External HTTP Load Balancer
 Frontend IP: 35.231.140.15
 
 Backend service: MIG
+<img width="1514" height="797" alt="image" src="https://github.com/user-attachments/assets/729c0cf4-1e15-4e14-9be0-41f21d8f9540" />
+
 
 Health check attached
+<img width="797" height="382" alt="image" src="https://github.com/user-attachments/assets/57ba1e03-325e-4b6d-81ed-3d994dbcd7a7" />
+
 
 URL map + target HTTP proxy configured
+<img width="1333" height="463" alt="image" src="https://github.com/user-attachments/assets/215a2f1a-a73a-4a0d-ba31-351de0fa92eb" />
+
 
 
 
