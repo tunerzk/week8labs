@@ -233,6 +233,22 @@ Explain:
 - **The mandatory (required) arguments for a VM in Terraform.**
 - **How to output the internal and external IP addresses of the provisioned VM and how you figured this out.**
 - **Choose 2 non‑required arguments and give an explanation for both** (do not copy and paste the reference material).
+- A description field doesn’t change how the resource behaves, but it does change how humans understand your infrastructure. It’s a place to document intent — why the resource exists, what it connects to, or what problem it solves.
+This becomes incredibly useful months later when you’re debugging or when someone else inherits your Terraform. Instead of reverse‑engineering the purpose of a firewall rule or instance template, the description tells the story directly.
+
+Why it matters:
+Helps future you (or teammates) understand the resource
+Makes the GCP console easier to navigate
+Reduces mistakes when modifying infrastructure
+
+The depends_on argument forces Terraform to create resources in a specific order, even when Terraform’s automatic dependency graph thinks it knows better.
+You use this when a resource technically has no direct reference to another, but still must wait for it. For example, your forwarding rule depends on the proxy‑only subnet being created first — not because it references it, but because the LB control plane requires that subnet to exist.
+
+Why it matters:
+Prevents race conditions
+Ensures resources are created in the correct sequence
+Avoids destroy‑time failures (like deleting a subnet before the LB is gone)
+
 - **Explain how you would figure out the correct format for creating a VM with the “centOS stream 10” image** (the specific image is up to you).
 - **Explain the difference between the `name` argument and the computed `id` and `self_link` attributes.**
 
