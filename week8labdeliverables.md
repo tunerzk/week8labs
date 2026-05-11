@@ -250,6 +250,17 @@ Ensures resources are created in the correct sequence
 Avoids destroy‑time failures (like deleting a subnet before the LB is gone)
 
 - **Explain how you would figure out the correct format for creating a VM with the “centOS stream 10” image** (the specific image is up to you).
+- Google publishes OS images inside image families, and each family always points to the newest image.
+To find the correct CentOS Stream 10 family, you would:
+Look up the public image families for CentOS in the centos-cloud project.
+Identify the family that corresponds to CentOS Stream 10.
+Use that family name in your Terraform resource.
+
+Why this works:
+You don’t need to know the exact image name (which changes over time).
+Image families are stable and always point to the latest version.
+Terraform can reference them directly using source_image_family.
+
 - **Explain the difference between the `name` argument and the computed `id` and `self_link` attributes.**
 
 ---
