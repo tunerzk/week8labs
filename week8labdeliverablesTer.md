@@ -5,9 +5,30 @@ Create a section called **“terraform”** in your Markdown.
 Explain:
 
 - **The mandatory (required) arguments for a VM in Terraform.**
+- I looked at the Terraform provider schema for google_compute_instance.
+Every argument is marked as:
+*Required
+*Optional
+*Computed
+Only three arguments are marked Required:
+*name
+*machine_type
+*zone
+Everything else is optional or computed.
+
 - **How to output the internal and external IP addresses of the provisioned VM and how you figured this out.**
+- output "vm_ips" {
+  value = {
+    internal = google_compute_instance.app.network_interface[0].network_ip
+    external = google_compute_instance.app.network_interface[0].access_config[0].nat_ip
+  }
+
+You can output the internal and external IP addresses of a VM in Terraform by referencing the network_interface attributes that Google Compute Engine exposes after the VM is created. The key is understanding the difference between: the arguments you set (like name), and
+the computed attributes Terraform exposes (like network_interface.0.network_ip and network_interface.0.access_config.0.nat_ip).
+
+
 - **Choose 2 non‑required arguments and give an explanation for both** (do not copy and paste the reference material).
-- A description field doesn’t change how the resource behaves, but it does change how humans understand your infrastructure. It’s a place to document intent — why the resource exists, what it connects to, or what problem it solves.
+ A description field doesn’t change how the resource behaves, but it does change how humans understand your infrastructure. It’s a place to document intent — why the resource exists, what it connects to, or what problem it solves.
 This becomes incredibly useful months later when you’re debugging or when someone else inherits your Terraform. Instead of reverse‑engineering the purpose of a firewall rule or instance template, the description tells the story directly.
 
 Why it matters:
@@ -24,7 +45,7 @@ Ensures resources are created in the correct sequence
 Avoids destroy‑time failures (like deleting a subnet before the LB is gone)
 
 - **Explain how you would figure out the correct format for creating a VM with the “centOS stream 10” image** (the specific image is up to you).
-- Google publishes OS images inside image families, and each family always points to the newest image.
+  Google publishes OS images inside image families, and each family always points to the newest image.
 To find the correct CentOS Stream 10 family, you would:
 Look up the public image families for CentOS in the centos-cloud project.
 Identify the family that corresponds to CentOS Stream 10.
@@ -36,6 +57,17 @@ Image families are stable and always point to the latest version.
 Terraform can reference them directly using source_image_family.
 
 - **Explain the difference between the `name` argument and the computed `id` and `self_link` attributes.**
+- Use name when:
+You want a readable label
+You’re naming resources in your config
+
+✔ Use id when:
+Terraform needs to reference the resource internally
+You’re debugging state
+
+✔ Use self_link when:
+Another GCP resource requires a full URL
+You’re wiring resources together (e.g., MIG → instance template → backend service)
 
 ---
 
