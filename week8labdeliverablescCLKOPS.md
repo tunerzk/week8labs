@@ -62,14 +62,118 @@ Each bullet point can be between **1–5 sentences**. You choose the amount of d
 Answer:
 
 - **What is the difference between high availability and fault tolerance? Which is best to strive for?**
+- High Availability (HA)
+The system stays available most of the time, even if parts fail, Achieved through redundancy, load balancing, health checks, autoscaling, etc.
+Some downtime or brief failover is acceptable.
+
+Fault Tolerance (FT)
+The system continues operating with zero interruption, even if components fail, Achieved through real‑time replication, synchronous failover, redundant hardware, etc. No downtime is acceptable.
+
+Which is best?
+HA is what most organizations strive for — it’s cost‑effective and practical
+FT is extremely expensive and used only in mission‑critical systems (e.g., aviation, medical devices)
+
 - **Explain the difference between autoscaling and elasticity.**
+- Autoscaling is the mechanism. Elasticity is the outcome.
+- Autoscaling can exist without true elasticity (e.g., only scaling up, not down). Elasticity requires autoscaling, but autoscaling alone doesn’t guarantee   elasticity.
+- Autoscaling
+A feature or tool that automatically adjusts the number of compute resources based on metrics.
+It adds or removes VMs, containers, or nodes
+Triggered by CPU, memory, request count, queue depth, etc.
+Implemented by systems like MIGs, Kubernetes HPA/VPA, or serverless platforms
+Elasticity
+A property of a system — the ability to automatically adapt to workload changes.
+Expands when demand increases
+Contracts when demand decreases
+Ensures efficient resource usage and cost control
+Elasticity is the result of autoscaling working correctly.
+
+- 
 - **What is vertical and horizontal autoscaling? Is one better? Are they feasible on‑prem?**
+- 1️⃣ Vertical autoscaling (Scaling Up)
+You increase the size of a single machine:
+Add more CPU
+Add more RAM
+Add more disk
+Move from an e2-medium → n2-highmem-8, for example
+
+Pros:
+Simple — no architectural changes
+Good for legacy apps that can’t run on multiple nodes
+
+Cons:
+Hard limits (you can’t scale beyond the biggest machine)
+Often requires downtime
+
 - **Explain what the difference between managed and unmanaged instance groups is.**
+- A Managed Instance Group is a collection of identical VMs created from an instance template.
+- An Unmanaged Instance Group is simply a collection of VMs you manually add.
+- 
 - **Explain the different use cases for health checks used by applications (in instance groups) and health checks used by load balancers.**
-  - Can they be the same?
-  - Are they different API calls?
-  - Should they be the same?
+- Health checks exist in two different layers of Google Cloud, and each layer uses them for a different purpose. The cleanest way to understand the distinction is this:
+- Health checks used by applications (Instance Groups)
+These are the health checks used by Managed Instance Groups (MIGs).
+
+Purpose
+Determine whether a VM is healthy enough to stay in the group
+If unhealthy → MIG recreates the VM
+Focus is on VM lifecycle, not traffic routing
+Typical use cases
+Startup script failed
+Application crashed
+VM is stuck or unresponsive
+VM needs to be replaced automatically
+
+Instance group health checks decide whether a VM should live or die.
+Load balancer health checks decide whether a VM should receive traffic.
+
+Health checks used by load balancers
+These are the health checks used by backend services behind an HTTP(S) load balancer.
+
+Purpose
+Determine whether a VM should receive traffic
+If unhealthy → LB stops sending requests
+VM is NOT deleted — just removed from rotation
+Typical use cases
+Application endpoint is slow
+App returns 500 errors
+VM is overloaded
+VM is healthy enough to stay alive, but not healthy enough to serve traffic
+
+
+  - Can they be the same? Yes.  Both MIGs and LBs can check the same endpoint like /health, /status etc
+  - Are they different API calls? Yes — completely different APIs. MIG health checks use the Instance Group Manager API.
+    LB health checks use the Compute Backend Service API, Even if they check the same URL path, they are different systems making different calls.
+    
+  - Should they be the same? Often yes — but not always.
+  - When they SHOULD be the same
+    Stateless web apps
+    Microservices
+    Apps where “healthy” means the same thing for both traffic and lifecycle
+    
+   -When they SHOULD NOT be the same
+    When you want the LB to be stricter
+    Example: LB checks /ready but MIG checks /alive
+    When you want the MIG to recreate VMs only when they are truly broken
+    When the app has a warm‑up period
+    When the app can serve traffic before being “fully ready”
+    
 - **Explain in a few sentences what the 3‑tier architecture is and how it relates to what you are learning.**
+- The 3‑tier architecture is a classic way of designing applications by separating them into three independent layers:
+  the presentation tier (UI or web layer),
+  the application tier (business logic), and
+  the data tier (databases and storage).
+  This separation makes systems easier to scale, secure, and maintain.
+
+  Everything i've been building in GCP maps directly to the presentation tier of a 3‑tier architecture:
+  Your managed instance group = scalable web server layer
+  Your load balancer = traffic distribution layer
+  Your health checks = reliability and availability mechanisms
+  Your autoscaling = elasticity of the presentation tier
+
+Later, I would add:
+an application tier (Cloud Run, GKE, or another MIG), and
+a data tier (Cloud SQL, Firestore, or Bigtable).
 
 ---
 
