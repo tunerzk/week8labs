@@ -308,6 +308,8 @@ The Terraform config must conform to **best practices**.
 The Terraform config must provision a **VM** that:
 
 - Has an **external IP**.
+- <img width="1066" height="303" alt="image" src="https://github.com/user-attachments/assets/ca85c85d-4ac9-4a0a-a765-e8666e29f0f5" />
+
 - Uses the **“centOS stream 10”** OS image.
 - Has a **root persistent disk of 100 GB**.
 - Uses a machine type in the **N series** (you choose which).
