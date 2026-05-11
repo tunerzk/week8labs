@@ -139,3 +139,24 @@ The Terraform config must provision a **VM** that:
 
   ```hcl
   tags = ["http-server"]
+
+  ### Results###
+<img width="1566" height="578" alt="week8webproof" src="https://github.com/user-attachments/assets/a751a068-88eb-4a26-8dc2-e1d9c782a347" />
+<img width="1403" height="614" alt="image" src="https://github.com/user-attachments/assets/ec8334b9-9e1b-4b0c-8037-63a8ab02d5f6" />
+<img width="1498" height="440" alt="image" src="https://github.com/user-attachments/assets/ac51a1a2-738d-4c01-8e50-cb605563a020" />
+<img width="1042" height="725" alt="image" src="https://github.com/user-attachments/assets/69303a6b-d951-4f16-88c2-96f5d2fb0545" />
+<img width="1397" height="272" alt="image" src="https://github.com/user-attachments/assets/577ea3eb-1543-424b-95f8-f5627a5967ad" />
+<img width="1171" height="370" alt="image" src="https://github.com/user-attachments/assets/6ab5bec8-b300-4ef3-9f42-9cce95dba152" />
+<img width="1453" height="306" alt="image" src="https://github.com/user-attachments/assets/677bdeee-9389-4a29-aedf-3c5aad479471" />
+<img width="1406" height="269" alt="image" src="https://github.com/user-attachments/assets/d2e83bf0-d18b-4bb3-87b3-72892bbb73ed" />
+
+
+
+
+
+
+
+
+
+
+  
