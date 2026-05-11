@@ -64,8 +64,12 @@ The Terraform config must conform to **best practices**.
 ### Terraform and provider blocks
 
 - Include a `terraform {}` block:
-  - Ideally with versioning requirements for the Terraform binary of at least `1.10`.
+- <img width="964" height="306" alt="image" src="https://github.com/user-attachments/assets/262527f7-25c8-404c-8fbe-c8af35c161d5" />
+ - Ideally with versioning requirements for the Terraform binary of at least `1.10`.
+ - 
 - Include a `provider {}` block:
+- <img width="885" height="216" alt="image" src="https://github.com/user-attachments/assets/41f2eaf9-e440-47bc-af60-68522c050ec0" />
+
   - Use the latest provider version.
 
 ### Style and structure
@@ -87,6 +91,8 @@ The Terraform config must provision a **VM** that:
 - Uses the **“centOS stream 10”** OS image.
 - Has a **root persistent disk of 100 GB**.
 - Uses a machine type in the **N series** (you choose which).
+- <img width="841" height="259" alt="image" src="https://github.com/user-attachments/assets/ff9b881d-2841-4198-aed8-0be71d3d4e75" />
+
 - Uses the provided **startup script**:
   - Command to get script:
 
