@@ -253,9 +253,6 @@ Path: /
 
 Backend instance now shows Healthy
 <img width="1468" height="793" alt="image" src="https://github.com/user-attachments/assets/acb91f4c-483d-4d2d-8174-5d055750a4b4" />
-TERRAFORM
-<img width="1062" height="295" alt="image" src="https://github.com/user-attachments/assets/8943d591-be4d-4943-adde-a3b9a8707f54" />
-
 
 
 7. Load Balancer
