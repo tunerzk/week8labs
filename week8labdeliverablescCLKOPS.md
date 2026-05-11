@@ -227,7 +227,7 @@ Enabled NAT for backend-subnet
 
 Allowed MIG VMs to run apt update and install Apache
 DIFFERENT FOR CENTOS USING TERRAFORM *****
-<img width="836" height="133" alt="image" src="https://github.com/user-attachments/assets/fe7d633a-019c-4956-99dc-907e9ca96ce9" />
+
 
 
 
